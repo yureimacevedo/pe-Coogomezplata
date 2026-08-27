@@ -1522,11 +1522,11 @@ const AnalisisBmc=({entries,vrio,contraste,area,cargo,isAdmin,canEdit,userId,onA
   <div>
     <p style={{color:'#6B7280',marginBottom:'1rem'}}>Cada bloque acepta notas enlazadas opcionalmente a un recurso VRIO o a una línea de la matriz de contraste.</p>
     <div style={{display:'grid',gap:'0.85rem',gridTemplateColumns:'repeat(5, minmax(200px,1fr))',gridTemplateAreas:`"socios actividades valor relaciones segmentos" "socios recursos valor canales segmentos" "costos costos costos ingresos ingresos"`}}>
-      {BMC_BLOCKS.map(b=><BmcBlock key={b.key} block={b} entries={entries.filter(e=>e.bloque===b.key)} area={area} cargo={cargo} isAdmin={isAdmin} canEdit={canEdit} vrio={vrio} contraste={contraste} onAdd={onAdd} onUpdate={onUpdate} onRemove={onRemove}/>)}
+      {BMC_BLOCKS.map(b=><BmcBlock key={b.key} block={b} entries={entries.filter(e=>e.bloque===b.key)} area={area} cargo={cargo} isAdmin={isAdmin} canEdit={canEdit} userId={userId} vrio={vrio} contraste={contraste} onAdd={onAdd} onUpdate={onUpdate} onRemove={onRemove}/>)}
     </div>
   </div>
 );
-const BmcBlock=({block,entries,area,cargo,isAdmin,canEdit,vrio,contraste,onAdd,onUpdate,onRemove})=>{
+const BmcBlock=({block,entries,area,cargo,isAdmin,canEdit,userId,vrio,contraste,onAdd,onUpdate,onRemove})=>{
   const[editId,setEditId]=useState(null);
   const[editArea,setEditArea]=useState('');
   const[text,setText]=useState('');const[origenValue,setOrigenValue]=useState('');const[transversal,setTransversal]=useState(false);
@@ -1568,11 +1568,11 @@ const AnalisisEric=({entries,bmc,vrio,area,cargo,isAdmin,canEdit,userId,onAdd,on
   <div>
     <p style={{color:'#6B7280',marginBottom:'1rem'}}>Puedes registrar ideas aquí, o marcarlas directamente desde un recurso VRIO.</p>
     <div className="grid">
-      {ERIC_QUADS.map(q=><EricQuad key={q.key} quad={q} entries={entries.filter(e=>e.accion===q.key)} area={area} cargo={cargo} isAdmin={isAdmin} canEdit={canEdit} bmc={bmc} vrio={vrio} onAdd={onAdd} onUpdate={onUpdate} onRemove={onRemove}/>)}
+      {ERIC_QUADS.map(q=><EricQuad key={q.key} quad={q} entries={entries.filter(e=>e.accion===q.key)} area={area} cargo={cargo} isAdmin={isAdmin} canEdit={canEdit} userId={userId} bmc={bmc} vrio={vrio} onAdd={onAdd} onUpdate={onUpdate} onRemove={onRemove}/>)}
     </div>
   </div>
 );
-const EricQuad=({quad,entries,area,cargo,isAdmin,canEdit,bmc,vrio,onAdd,onUpdate,onRemove})=>{
+const EricQuad=({quad,entries,area,cargo,isAdmin,canEdit,userId,bmc,vrio,onAdd,onUpdate,onRemove})=>{
   const[editId,setEditId]=useState(null);
   const[editArea,setEditArea]=useState('');
   const[text,setText]=useState('');const[refValue,setRefValue]=useState('');const[transversal,setTransversal]=useState(false);
@@ -2578,7 +2578,7 @@ const VistaSeguimiento=({user,entidad,datos,isMonitoreo,userCargo})=>{
           // Si ya existe en Auth (email-already-in-use), buscar su UID en otras colecciones
           if(authErr.code==='auth/email-already-in-use'){
             // Buscar el UID en otras colecciones de usuarios
-            const colecciones=['coosanroque_usuarios','coonecta_usuarios','coogomezplata_usuarios','coogomezplata_usuarios','unioncoop_usuarios','coofisam_usuarios'];
+            const colecciones=['coosanroque_usuarios','coonecta_usuarios','coogomezplata_usuarios','coogomezplata_usuarios','unioncoop_usuarios','coogomezplata_usuarios'];
             for(const col of colecciones){
               const snap=await db.collection(col).where('email','==',form.email).get();
               if(!snap.empty){uid=snap.docs[0].id;break;}
